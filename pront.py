@@ -51,6 +51,10 @@ def pront():
                     help='the username to send to the imap server to fetch validation requests from.')
     parser.add_argument('password', type=str,
                     help='the password to send to the imap server to fetch validation requests from.')
+    parser.add_argument('slicer', type=str,
+                    help='the path to the slic3r application.')
+    parser.add_argument('slicer-config', type=str,
+                    help='the path to the slic3r config file.')
 
     args = vars(parser.parse_args())
 
@@ -96,7 +100,7 @@ def pront():
                 del mail.queue[code]
 
         # Slice and start printing.
-        printer.process_queue()
+        printer.process_queue(args['slicer'], args['slicer-config'])
 
         # Grace period as to not fuck over the SMTP and IMAP servers.
         logger.debug("Gracing.")
